@@ -1,7 +1,12 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import { TournamentDataProvider } from "../context/TournamnetDataProvider";
+import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <TournamentDataProvider tournamentId={1} chainId={4}>
+      <Component {...pageProps} />
+    </TournamentDataProvider>
+  );
 }
-export default MyApp
+export default MyApp;
