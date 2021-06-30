@@ -1,6 +1,12 @@
-import { BigNumber } from "ethers";
-import { Tournament } from "../data/Tournament";
-import { Provider } from '@ethersproject/providers';
+import { BigNumber, EventFilter } from "ethers";
+import { hexZeroPad, id } from "ethers/lib/utils";
+import { Tournament } from "./Tournament";
+import { Provider } from '@ethersproject/providers'
+
+export type RoundHistory = {
+  round: BigNumber
+  bracketWinners: number[]
+}
 
 export type TournamentData = {
   wallets?: string[];
@@ -9,6 +15,7 @@ export type TournamentData = {
   currentBalances?: BigNumber[];
   bracketWinners?: number[];
   currentRound?: BigNumber;
+  roundHistory?: RoundHistory[];
 };
 
 export type TournamentFetchRequest = {
@@ -20,11 +27,15 @@ export class Fetcher {
   tournament: Tournament;
   tournamentId: number;
   tournamentData: TournamentData;
+  tournamentAddress: string;
+  provider: Provider;
 
-  constructor(provider: Provider, chainId: number, tournamentAddress: string, tournamentId: number) {
-    this.tournament = new Tournament(provider, chainId, tournamentAddress);
+  constructor(provider: Provider, chainId: number, address: string, tournamentId: number) {
+    this.tournament = new Tournament(provider, chainId, address);
     this.tournamentId = tournamentId;
+    this.tournamentAddress = address;
     this.tournamentData = {};
+    this.provider = provider;
   }
 
   fetchWallets = async () => {
@@ -65,6 +76,20 @@ export class Fetcher {
     this.tournamentData.currentRound = currentRound;
   };
 
+  fetchRoundWinners = async () => {
+    const filter = this.tournament.tournamentContract.filters.RoundEnded(this.tournamentId);
+    const roundEndEvents = await this.tournament.tournamentContract.queryFilter(filter);
+    
+    const roundHistory = roundEndEvents.map(event => {
+      const { args } = event;
+      return { round: args[1], bracketWinners: args[2] }
+    })
+
+    this.tournamentData.roundHistory = roundHistory;
+
+    console.log("event", roundHistory);
+  };
+
   fetchTournamentData = async (): Promise<TournamentFetchRequest> => {
     const group = [];
 
@@ -74,6 +99,7 @@ export class Fetcher {
     group.push(this.fetchCurrentBalances());
     group.push(this.fetchBracketWinners());
     group.push(this.fetchCurrentRound());
+    group.push(this.fetchRoundWinners());
 
     try {
       await Promise.all(group);

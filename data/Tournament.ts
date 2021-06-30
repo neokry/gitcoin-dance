@@ -5,35 +5,35 @@ import { Tournament as TournamentContract, Tournament__factory as TournamentFact
 export class Tournament {
     public provider: Provider;
     public chainId: number;
-    public tournament: TournamentContract;
+    public tournamentContract: TournamentContract;
 
     constructor(provider: Provider, chainId: number, tournamentAddress: string) {
         this.provider = provider;
         this.chainId = chainId;
-        this.tournament = TournamentFactory.connect(tournamentAddress, provider);
+        this.tournamentContract = TournamentFactory.connect(tournamentAddress, provider);
     }
 
     public async getWallets(tournamentId: number): Promise<string[]> {
-        return this.tournament.getWallets(tournamentId);
+        return this.tournamentContract.getWallets(tournamentId);
     }
 
     public async getTokenAddresses(tournamentId: number): Promise<string[]> {
-        return this.tournament.getTokenAddresses(tournamentId);
+        return this.tournamentContract.getTokenAddresses(tournamentId);
     }
 
     public async getTokenIds(tournamentId: number): Promise<BigNumber[]> {
-        return this.tournament.getTokenIds(tournamentId);
+        return this.tournamentContract.getTokenIds(tournamentId);
     }
 
     public async getCurrentBalances(tournamentId: number): Promise<BigNumber[]> {
-        return this.tournament.getCurrentBalances(tournamentId);
+        return this.tournamentContract.getCurrentBalances(tournamentId);
     }
 
     public async getBracketWinners(tournamentId: number): Promise<number[]> {
-        return this.tournament.getBracketWinners(tournamentId);
+        return this.tournamentContract.getBracketWinners(tournamentId);
     }
 
     public async getCurrentRound(tournamentId: number): Promise<BigNumber> {
-        return this.tournament.getCurrentRound(tournamentId);
+        return this.tournamentContract.getCurrentRound(tournamentId);
     }
 }

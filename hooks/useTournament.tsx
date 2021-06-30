@@ -17,11 +17,13 @@ export function useTournament(
   const [error, setError] = useState("");
 
   const loadTournament = async (tournamentId: number, chainId: number) => {
+    console.log("loading tournament");
     setLoading(true);
     const network = ethers.providers.getNetwork(chainId);
-    const provider = ethers.getDefaultProvider(network, {
-      infura: process.env.NEXT_PUBLIC_INFURA_ID,
-    });
+    const provider = new ethers.providers.InfuraProvider(
+      network,
+      process.env.NEXT_PUBLIC_INFURA_ID
+    );
     const address = process.env.NEXT_PUBLIC_TOURNAMENT_ADDRESS ?? "";
 
     const fetcher: Fetcher = new Fetcher(
@@ -32,15 +34,21 @@ export function useTournament(
     );
 
     const { error, data } = await fetcher.fetchTournamentData();
-    if (error) setError(error);
-    if (data) setData(data);
+    if (error) {
+      setError(error);
+      console.log(error);
+    }
+    if (data) {
+      setData(data);
+      console.log("tournamnet loaded");
+    }
     setLoading(false);
   };
 
   useEffect(() => {
-    if (loading || data) return;
+    if (loading || data || error) return;
     loadTournament(tournamentId, chainId);
-  }, [tournamentId, chainId, loading, data]);
+  }, [tournamentId, chainId, loading, data, error]);
 
   return { data, loading, error };
 }
