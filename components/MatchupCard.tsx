@@ -6,6 +6,7 @@ import { NFTDataProvider } from "@zoralabs/nft-components";
 import { CheckoutManager } from "zksync-checkout";
 import { ethers } from "ethers";
 import useSWR from "swr";
+import { ZKSyncDataContext } from "../context/ZKSyncDataContext";
 
 export type ZKSyncToken = {
   id: number;
@@ -16,15 +17,31 @@ export type ZKSyncToken = {
 
 export type MatchupCardProps = {
   playerIndex: number;
+  isCurrentRound: boolean;
 };
 
-export default function MatchupCard({ playerIndex }: MatchupCardProps) {
+export default function MatchupCard({
+  playerIndex,
+  isCurrentRound,
+}: MatchupCardProps) {
   const { tournament } = useContext(TournamentDataContext);
+  const { zkData } = useContext(ZKSyncDataContext);
   const swr = useSWR("https://api.zksync.io/api/v0.1/tokens");
 
   if (!tournament.data || !swr.data) return <Fragment />;
   const { data } = tournament;
   const tokenList: ZKSyncToken[] = swr.data;
+
+  let playerFunds = 0;
+  if (zkData.data && data.wallets) {
+    const player = data.wallets[playerIndex];
+    const playerTotal = zkData.data.accountsTotals?.find(
+      (x) =>
+        x.address.toLocaleLowerCase().localeCompare(player.toLowerCase()) === 0
+    );
+
+    if (playerTotal) playerFunds = playerTotal.totalBalanceUSD;
+  }
 
   //ZKSync checkout
   const checkout = async (amount: string, tokenId: number) => {
@@ -57,7 +74,12 @@ export default function MatchupCard({ playerIndex }: MatchupCardProps) {
       id={data.tokenIds ? data.tokenIds[playerIndex].toString() : ""}
       contract={data.tokenAddresses ? data.tokenAddresses[playerIndex] : ""}
     >
-      <Content checkout={checkout} tokenList={tokenList} />
+      <Content
+        checkout={checkout}
+        tokenList={tokenList}
+        isCurrentRound={isCurrentRound}
+        playerFunds={playerFunds}
+      />
     </NFTDataProvider>
   );
 }
@@ -65,9 +87,13 @@ export default function MatchupCard({ playerIndex }: MatchupCardProps) {
 const Content = ({
   checkout,
   tokenList,
+  isCurrentRound,
+  playerFunds,
 }: {
   checkout: (amount: string, tokenId: number) => void;
   tokenList: ZKSyncToken[];
+  isCurrentRound: boolean;
+  playerFunds: number;
 }) => {
   const {
     nft: { data },
@@ -76,8 +102,10 @@ const Content = ({
 
   const [amount, setAmount] = useState("");
   const [tokenId, setTokenId] = useState("0");
+  const addressSlice = 4;
 
   if (!data || !metadata) return <Fragment />;
+  const { creator } = data.nft;
 
   return (
     <div className="m-4">
@@ -90,41 +118,60 @@ const Content = ({
           alt="image"
         />
 
-        <h1 className="">{metadata.name}</h1>
-        <p>created by: {data.nft.creator}</p>
+        <div className="flex justify-between">
+          <div>
+            <h1 className="">{metadata.name}</h1>
+            {creator && (
+              <p>
+                created by:{" "}
+                {creator.slice(0, addressSlice + 2) +
+                  "..." +
+                  creator.slice(creator.length - addressSlice, creator.length)}
+              </p>
+            )}
+          </div>
+          <div>
+            <p>Collected by this NFT</p>
+            <h1>${playerFunds.toFixed(2)}</h1>
+          </div>
+        </div>
         <p>{metadata.description}</p>
       </div>
-      <form
-        className="mt-4 flex"
-        onSubmit={(e) => {
-          e.preventDefault();
-          checkout(amount, parseInt(tokenId));
-        }}
-      >
-        <select
-          value={tokenId}
-          onChange={(e) => {
-            setTokenId(e.target.value);
+      {isCurrentRound ? (
+        <form
+          className="mt-4 flex"
+          onSubmit={(e) => {
+            e.preventDefault();
+            checkout(amount, parseInt(tokenId));
           }}
         >
-          {tokenList.map((token) => (
-            <option key={token.id} value={token.id}>
-              {token.symbol}
-            </option>
-          ))}
-        </select>
-        <input
-          type="number"
-          className="mx-2"
-          placeholder="Amount"
-          onChange={(e) => {
-            setAmount(e.target.value);
-          }}
-          value={amount}
-          name="amount"
-        />
-        <button type="submit">Vote</button>
-      </form>
+          <select
+            value={tokenId}
+            onChange={(e) => {
+              setTokenId(e.target.value);
+            }}
+          >
+            {tokenList.map((token) => (
+              <option key={token.id} value={token.id}>
+                {token.symbol}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            className="mx-2"
+            placeholder="Amount"
+            onChange={(e) => {
+              setAmount(e.target.value);
+            }}
+            value={amount}
+            name="amount"
+          />
+          <button type="submit">Vote</button>
+        </form>
+      ) : (
+        <div>Round Ended</div>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { NFTDataContext } from "@zoralabs/nft-components";
 import { Fragment, useContext } from "react";
 
-export default function Thumbnail({ isWinner }: { isWinner: boolean }) {
+export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
   const {
     nft: { data },
     metadata: { metadata },
@@ -12,7 +12,8 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean }) {
   return (
     <div
       className={`w-40 h-40 m-4 border-4 ${
-        isWinner ? "border-green-600" : "border-red-600"
+        (isWinner === true && "border-green-600") ||
+        (isWinner == false && "border-red-600")
       }`}
     >
       <img

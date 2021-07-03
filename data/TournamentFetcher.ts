@@ -23,7 +23,7 @@ export type TournamentFetchRequest = {
   error?: string;
 };
 
-export class Fetcher {
+export class TournamentFetcher {
   tournament: Tournament;
   tournamentId: number;
   tournamentData: TournamentData;

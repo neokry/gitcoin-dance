@@ -14,10 +14,10 @@ export default function Round({ roundNumber }: { roundNumber: number }) {
   const { data } = tournament;
   const roundSize = Math.pow(2, roundNumber);
 
-  const isWinner = (playerId: number): boolean => {
+  const isWinner = (playerId: number): boolean | null => {
     switch (roundNumber) {
       case 1:
-        if (!data.bracketWinners) return false;
+        if (!data.bracketWinners) return null;
         return playerId === data.bracketWinners[0];
       case 0:
         return true;
@@ -25,7 +25,7 @@ export default function Round({ roundNumber }: { roundNumber: number }) {
         const roundData = data.roundHistory?.filter(
           (x) => x.round.toNumber() == roundNumber
         );
-        if (!roundData || roundData.length < 1) return false;
+        if (!roundData || roundData.length < 1) return null;
         const winners = roundData[0].bracketWinners.slice(
           0,
           Math.pow(2, roundNumber - 1)

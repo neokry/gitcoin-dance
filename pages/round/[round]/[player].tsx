@@ -3,6 +3,7 @@ import { useContext } from "react";
 import MatchupCard from "../../../components/MatchupCard";
 import { TournamentDataContext } from "../../../context/TournamentDataContext";
 import { Fragment } from "react";
+import Layout from "../../../components/Layout";
 
 export default function Matchup() {
   const router = useRouter();
@@ -15,6 +16,10 @@ export default function Matchup() {
   const { tournament } = useContext(TournamentDataContext);
   if (!tournament.data) return <Fragment />;
   const { data } = tournament;
+
+  const isCurrentRound = () => {
+    return roundNumber === data.currentRound?.toNumber();
+  };
 
   let opponentId;
 
@@ -46,15 +51,23 @@ export default function Matchup() {
   }
 
   return (
-    <div className="flex items-center justify-around">
-      <div className="m-4 w-1/2">
-        <MatchupCard playerIndex={playerId} />
-      </div>
-      {opponentId !== null && (
+    <Layout>
+      <div className="flex items-center justify-around">
         <div className="m-4 w-1/2">
-          <MatchupCard playerIndex={opponentId} />
+          <MatchupCard
+            playerIndex={playerId}
+            isCurrentRound={isCurrentRound()}
+          />
         </div>
-      )}
-    </div>
+        {opponentId !== null && (
+          <div className="m-4 w-1/2">
+            <MatchupCard
+              playerIndex={opponentId}
+              isCurrentRound={isCurrentRound()}
+            />
+          </div>
+        )}
+      </div>
+    </Layout>
   );
 }

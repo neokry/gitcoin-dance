@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { Fetcher, TournamentData } from "../data/Fetcher";
+import { TournamentFetcher, TournamentData } from "../data/TournamentFetcher";
 
 export type useTournamentType = {
   loading: boolean;
@@ -14,7 +14,7 @@ export function useTournament(
 ): useTournamentType {
   const [data, setData] = useState<TournamentData | undefined>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | undefined>("");
 
   const loadTournament = async (tournamentId: number, chainId: number) => {
     console.log("loading tournament");
@@ -26,7 +26,7 @@ export function useTournament(
     );
     const address = process.env.NEXT_PUBLIC_TOURNAMENT_ADDRESS ?? "";
 
-    const fetcher: Fetcher = new Fetcher(
+    const fetcher: TournamentFetcher = new TournamentFetcher(
       provider,
       chainId,
       address,
