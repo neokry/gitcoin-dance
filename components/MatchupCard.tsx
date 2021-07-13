@@ -18,11 +18,13 @@ export type ZKSyncToken = {
 export type MatchupCardProps = {
   playerIndex: number;
   isCurrentRound: boolean;
+  roundNumber: number;
 };
 
 export default function MatchupCard({
   playerIndex,
   isCurrentRound,
+  roundNumber,
 }: MatchupCardProps) {
   const { tournament } = useContext(TournamentDataContext);
   const { zkData } = useContext(ZKSyncDataContext);
@@ -32,16 +34,47 @@ export default function MatchupCard({
   const { data } = tournament;
   const tokenList: ZKSyncToken[] = swr.data;
 
-  let playerFunds = 0;
-  if (zkData.data && data.wallets) {
-    const player = data.wallets[playerIndex];
-    const playerTotal = zkData.data.accountsTotals?.find(
-      (x) =>
-        x.address.toLocaleLowerCase().localeCompare(player.toLowerCase()) === 0
+  //pulls player score data from contract
+  const getRoundScores = (queryRound: number) => {
+    if (!tournament.data) return;
+    const { roundHistory } = tournament.data;
+
+    if (!roundHistory) return;
+    const roundData = roundHistory.find(
+      (x) => x.round.toNumber() === queryRound
     );
 
-    if (playerTotal) playerFunds = playerTotal.totalBalanceUSD;
+    if (!roundData) return;
+    const { playersScores } = roundData;
+    if (playersScores) return playersScores[playerIndex].toNumber();
+  };
+
+  let playerFunds = 0;
+  if (zkData.data && data.wallets && isCurrentRound) {
+    //Get players funds from zkSync
+    const player = data.wallets[playerIndex];
+    const playerTotal = zkData.data.accountsTotals?.find(
+      (x) => x.address.toLowerCase().localeCompare(player.toLowerCase()) === 0
+    );
+
+    //Subtract current funds from prev round score
+    if (tournament.data && tournament.data.currentBalances) {
+      const balance = tournament.data.currentBalances[playerIndex];
+      if (playerTotal)
+        playerFunds = playerTotal.totalBalanceUSD - balance.toNumber();
+    }
+  } else if (tournament.data && roundNumber === 1) {
+    const {
+      data: { tournamentResult },
+    } = tournament;
+    if (tournamentResult && tournamentResult.playersScores)
+      playerFunds = tournamentResult.playersScores[playerIndex].toNumber();
+  } else {
+    //get round score from contract
+    playerFunds = getRoundScores(roundNumber) ?? 0;
   }
+
+  if (playerFunds < 0) playerFunds = 0;
 
   //ZKSync checkout
   const checkout = async (amount: string, tokenId: number) => {
@@ -84,6 +117,7 @@ export default function MatchupCard({
   );
 }
 
+//Content must be wrapped to pull cached nft data
 const Content = ({
   checkout,
   tokenList,

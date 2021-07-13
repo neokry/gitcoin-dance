@@ -11,7 +11,9 @@ export default function Header() {
         <a className="text-2xl font-bold">Gitcoin Dance</a>
       </Link>
       {zkData.data && zkData.data.overallTotal && (
-        <div>Collected: ${zkData.data.overallTotal?.toFixed(2) ?? "0"}</div>
+        <div>
+          Total Collected: ${zkData.data.overallTotal?.toFixed(2) ?? "0"}
+        </div>
       )}
     </div>
   );

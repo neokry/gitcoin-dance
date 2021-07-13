@@ -57,6 +57,7 @@ export default function Matchup() {
           <MatchupCard
             playerIndex={playerId}
             isCurrentRound={isCurrentRound()}
+            roundNumber={roundNumber}
           />
         </div>
         {opponentId !== null && (
@@ -64,6 +65,7 @@ export default function Matchup() {
             <MatchupCard
               playerIndex={opponentId}
               isCurrentRound={isCurrentRound()}
+              roundNumber={roundNumber}
             />
           </div>
         )}

@@ -33,6 +33,12 @@ export class ZKSyncFetcher {
         return { accountsTotals,  overallTotal, tokens: this.tokens};
     }
 
+    public async fetchZKBalances(addresses: string[]): Promise<ZKAccountBalanceUSD[]> {
+        const accounts = await this.fetchAccounts(addresses);
+        if(!this.tokens) await this.fetchTokens();
+        return await this.fetchBalances(accounts);
+    }
+
     private getAllAccountTotals(balances: ZKAccountBalanceUSD[]): number {
         let total = 0;
         balances.map(balance => {

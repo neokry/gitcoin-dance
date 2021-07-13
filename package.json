@@ -11,6 +11,7 @@
   "dependencies": {
     "@zoralabs/nft-components": "0.1.0-pre2",
     "axios": "^0.21.1",
+    "cors": "^2.8.5",
     "ethers": "^5.3.1",
     "next": "11.0.1",
     "react": "17.0.2",
@@ -20,6 +21,7 @@
     "zksync-checkout": "0.0.13"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/react": "17.0.11",
     "autoprefixer": "^10.2.6",
     "eslint": "7.29.0",

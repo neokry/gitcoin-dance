@@ -117,9 +117,9 @@ interface TournamentInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "getWallets", data: BytesLike): Result;
 
   events: {
-    "RoundEnded(uint256,uint256,uint8[8])": EventFragment;
+    "RoundEnded(uint256,uint256,uint8[8],uint256[])": EventFragment;
     "TournamentCreated(uint256)": EventFragment;
-    "TournamentEnded(uint256,uint8)": EventFragment;
+    "TournamentEnded(uint256,uint8,uint256[])": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "RoundEnded"): EventFragment;
@@ -207,13 +207,13 @@ export class Tournament extends BaseContract {
 
     endCurrentRound(
       _tournamentId: BigNumberish,
-      _roundResults: BigNumberish[],
+      _playersRoundScores: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     endTournament(
       _tournamentId: BigNumberish,
-      _roundResults: BigNumberish[],
+      _playersRoundScores: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -316,13 +316,13 @@ export class Tournament extends BaseContract {
 
   endCurrentRound(
     _tournamentId: BigNumberish,
-    _roundResults: BigNumberish[],
+    _playersRoundScores: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   endTournament(
     _tournamentId: BigNumberish,
-    _roundResults: BigNumberish[],
+    _playersRoundScores: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -415,13 +415,13 @@ export class Tournament extends BaseContract {
 
     endCurrentRound(
       _tournamentId: BigNumberish,
-      _roundResults: BigNumberish[],
+      _playersRoundScores: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<void>;
 
     endTournament(
       _tournamentId: BigNumberish,
-      _roundResults: BigNumberish[],
+      _playersRoundScores: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -488,12 +488,14 @@ export class Tournament extends BaseContract {
     RoundEnded(
       tournamentId?: BigNumberish | null,
       round?: BigNumberish | null,
-      bracketWinners?: null
+      bracketWinners?: null,
+      playersScores?: null
     ): TypedEventFilter<
       [
         BigNumber,
         BigNumber,
-        [number, number, number, number, number, number, number, number]
+        [number, number, number, number, number, number, number, number],
+        BigNumber[]
       ],
       {
         tournamentId: BigNumber;
@@ -508,6 +510,7 @@ export class Tournament extends BaseContract {
           number,
           number
         ];
+        playersScores: BigNumber[];
       }
     >;
 
@@ -517,10 +520,15 @@ export class Tournament extends BaseContract {
 
     TournamentEnded(
       tournamentId?: BigNumberish | null,
-      bracketWinner?: BigNumberish | null
+      bracketWinner?: BigNumberish | null,
+      playersScores?: null
     ): TypedEventFilter<
-      [BigNumber, number],
-      { tournamentId: BigNumber; bracketWinner: number }
+      [BigNumber, number, BigNumber[]],
+      {
+        tournamentId: BigNumber;
+        bracketWinner: number;
+        playersScores: BigNumber[];
+      }
     >;
   };
 
@@ -561,13 +569,13 @@ export class Tournament extends BaseContract {
 
     endCurrentRound(
       _tournamentId: BigNumberish,
-      _roundResults: BigNumberish[],
+      _playersRoundScores: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     endTournament(
       _tournamentId: BigNumberish,
-      _roundResults: BigNumberish[],
+      _playersRoundScores: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -639,13 +647,13 @@ export class Tournament extends BaseContract {
 
     endCurrentRound(
       _tournamentId: BigNumberish,
-      _roundResults: BigNumberish[],
+      _playersRoundScores: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     endTournament(
       _tournamentId: BigNumberish,
-      _roundResults: BigNumberish[],
+      _playersRoundScores: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

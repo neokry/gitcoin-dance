@@ -4,8 +4,14 @@ import { Tournament } from "./Tournament";
 import { Provider } from '@ethersproject/providers'
 
 export type RoundHistory = {
-  round: BigNumber
-  bracketWinners: number[]
+  round: BigNumber;
+  bracketWinners: number[];
+  playersScores?: BigNumber[];
+}
+
+export type TournamentResult = {
+  bracketWinner: number;
+  playersScores?: BigNumber[];
 }
 
 export type TournamentData = {
@@ -16,6 +22,7 @@ export type TournamentData = {
   bracketWinners?: number[];
   currentRound?: BigNumber;
   roundHistory?: RoundHistory[];
+  tournamentResult?: TournamentResult;
 };
 
 export type TournamentFetchRequest = {
@@ -76,19 +83,29 @@ export class TournamentFetcher {
     this.tournamentData.currentRound = currentRound;
   };
 
-  fetchRoundWinners = async () => {
+  fetchRoundHistory = async () => {
     const filter = this.tournament.tournamentContract.filters.RoundEnded(this.tournamentId);
     const roundEndEvents = await this.tournament.tournamentContract.queryFilter(filter);
     
     const roundHistory = roundEndEvents.map(event => {
       const { args } = event;
-      return { round: args[1], bracketWinners: args[2] }
+      return { round: args[1], bracketWinners: args[2], playersScores: args[3] }
     })
 
     this.tournamentData.roundHistory = roundHistory;
-
-    console.log("event", roundHistory);
   };
+
+  fetchTournamentResult = async () => {
+    const filter = this.tournament.tournamentContract.filters.TournamentEnded(this.tournamentId);
+    const roundEndEvent = await this.tournament.tournamentContract.queryFilter(filter);
+    
+    if(roundEndEvent.length > 0) {
+      const { args } = roundEndEvent[0];
+      const result = { bracketWinner: args[1], playersScores: args[2] }
+  
+      this.tournamentData.tournamentResult = result; 
+    }
+  }
 
   fetchTournamentData = async (): Promise<TournamentFetchRequest> => {
     const group = [];
@@ -99,7 +116,8 @@ export class TournamentFetcher {
     group.push(this.fetchCurrentBalances());
     group.push(this.fetchBracketWinners());
     group.push(this.fetchCurrentRound());
-    group.push(this.fetchRoundWinners());
+    group.push(this.fetchRoundHistory());
+    group.push(this.fetchTournamentResult());
 
     try {
       await Promise.all(group);
