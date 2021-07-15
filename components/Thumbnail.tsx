@@ -16,6 +16,7 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
         (isWinner == false && "border-red-600")
       }`}
     >
+      {/* Displays NFT media (assumed to be an image)*/}
       <img
         className="w-full h-full object-cover"
         src={
@@ -24,6 +25,7 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
         alt="image"
       />
 
+      {/* NFT title */}
       <p className="">{metadata.name}</p>
     </div>
   );

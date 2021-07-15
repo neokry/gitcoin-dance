@@ -7,9 +7,12 @@ export default function Header() {
 
   return (
     <div className="flex justify-between py-5 px-3">
+      {/* Placeholder for logo */}
       <Link href="/" passHref={true}>
         <a className="text-2xl font-bold">Gitcoin Dance</a>
       </Link>
+
+      {/* Total collected for the tournament */}
       {zkData.data && zkData.data.overallTotal && (
         <div>
           Total Collected: ${zkData.data.overallTotal?.toFixed(2) ?? "0"}

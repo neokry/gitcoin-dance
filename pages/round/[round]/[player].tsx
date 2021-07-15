@@ -21,8 +21,8 @@ export default function Matchup() {
     return roundNumber === data.currentRound?.toNumber();
   };
 
+  //Finds the current NFTs opponent for the round
   let opponentId;
-
   switch (roundNumber) {
     case initialRound:
       if (playerId % 2 == 0) opponentId = playerId + 1;
@@ -52,6 +52,7 @@ export default function Matchup() {
 
   return (
     <Layout>
+      {/* Displays the two NFTs in a matchup */}
       <div className="flex items-center justify-around">
         <div className="m-4 w-1/2">
           <MatchupCard

@@ -76,7 +76,7 @@ export default function MatchupCard({
 
   if (playerFunds < 0) playerFunds = 0;
 
-  //ZKSync checkout
+  //Sends player to zksync checkout
   const checkout = async (amount: string, tokenId: number) => {
     const token = tokenList.find((x) => x.id == tokenId);
 
@@ -107,6 +107,7 @@ export default function MatchupCard({
       id={data.tokenIds ? data.tokenIds[playerIndex].toString() : ""}
       contract={data.tokenAddresses ? data.tokenAddresses[playerIndex] : ""}
     >
+      {/* Main content for matchup card*/}
       <Content
         checkout={checkout}
         tokenList={tokenList}
@@ -144,6 +145,7 @@ const Content = ({
   return (
     <div className="m-4">
       <div>
+        {/* NFT media (assumed to be an image) */}
         <img
           className="w-full h-96 object-cover"
           src={
@@ -154,6 +156,7 @@ const Content = ({
 
         <div className="flex justify-between">
           <div>
+            {/* NFT creator information */}
             <h1 className="">{metadata.name}</h1>
             {creator && (
               <p>
@@ -164,13 +167,19 @@ const Content = ({
               </p>
             )}
           </div>
+
+          {/* Amount raised by the NFT */}
           <div>
             <p>Collected by this NFT</p>
             <h1>${playerFunds.toFixed(2)}</h1>
           </div>
         </div>
+
+        {/* NFT description */}
         <p>{metadata.description}</p>
       </div>
+
+      {/* Allows users to vote for this NFT by sending funds through ZKSync */}
       {isCurrentRound ? (
         <form
           className="mt-4 flex"
@@ -179,6 +188,7 @@ const Content = ({
             checkout(amount, parseInt(tokenId));
           }}
         >
+          {/* Select a token to vote with */}
           <select
             value={tokenId}
             onChange={(e) => {
@@ -191,6 +201,8 @@ const Content = ({
               </option>
             ))}
           </select>
+
+          {/* Input token amount to vote with */}
           <input
             type="number"
             className="mx-2"
@@ -201,6 +213,8 @@ const Content = ({
             value={amount}
             name="amount"
           />
+
+          {/* Submit the vote */}
           <button type="submit">Vote</button>
         </form>
       ) : (

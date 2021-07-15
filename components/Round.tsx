@@ -14,6 +14,7 @@ export default function Round({ roundNumber }: { roundNumber: number }) {
   const { data } = tournament;
   const roundSize = Math.pow(2, roundNumber);
 
+  //Checks is player has won the round
   const isWinner = (playerId: number): boolean | null => {
     switch (roundNumber) {
       case 1:
@@ -34,8 +35,8 @@ export default function Round({ roundNumber }: { roundNumber: number }) {
     }
   };
 
+  //Gets players in the current round
   let players: number[] = [];
-
   switch (roundNumber) {
     case initialRound:
       players = Array(playerCount)
@@ -57,6 +58,7 @@ export default function Round({ roundNumber }: { roundNumber: number }) {
 
   return (
     <div className="flex">
+      {/* Generates NFT thumbnails for the current round */}
       {players.map((playerIndex) => (
         <NFTDataProvider
           key={roundNumber + "-" + playerIndex}
