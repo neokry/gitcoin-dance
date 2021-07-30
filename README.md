@@ -1,7 +1,10 @@
+OVERVIEW
 - This app is responsible for displaying data related to the upcoming Gitcoin NFT tournament.
 - Data is pulled from the Tournament.sol contract found [here](https://github.com/upstateinteractive/gitcoin-nft-tournament) and the ZKSync L2.
 - Created with NextJS and TailwindCSS
 
+
+SETUP
 - Create a .env.local file and fill out the parameters as outlined in .env.sample
 - To get a complete tournament view use this sample contract and tournament id
 
