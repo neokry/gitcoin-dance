@@ -5,7 +5,7 @@ import winningLogo from '../public/assets/img/winning_logo.svg';
 import losingLogo from '../public/assets/img/losing_logo.svg';
 import { TournamentDataContext } from "../context/TournamentDataContext";
 import { Fragment } from "react";
-import { NFTDataProvider } from "@zoralabs/nft-components";
+import { NFTDataProvider, MediaObject } from "@zoralabs/nft-components";
 import { CheckoutManager } from "zksync-checkout";
 import { ethers } from "ethers";
 import useSWR from "swr";
@@ -150,12 +150,12 @@ const Content = ({
       <div>
         {/* NFT media (assumed to be an image) */}
         <div className="relative"> {/* if game is losed added this class name "gamelosing"*/}
-          <img className="w-full h-48 lg:h-80 object-cover"
-            src={data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image}
-            alt="image" />
-            {/* <div className="game-losing">
-              <Image src={losingLogo} alt="game_losing"/>
-            </div> */}
+          <div className="w-full h-48 lg:h-80 object-cover">
+            <MediaObject contentURI={
+              data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image
+            }
+              metadata={metadata} />
+          </div>
         </div>
 
         <div className="block mt-5 lg:flex lg:justify-between">
@@ -224,7 +224,7 @@ const Content = ({
           {/* Submit the vote */}
           <button className="block w-full lg:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-bold py-2 px-4 rounded-full">
             Vote!
-        </button>
+          </button>
         </div>
         {/* ) : (
         <div className="text-indigo-900 text-indigo">Round Ended</div>
