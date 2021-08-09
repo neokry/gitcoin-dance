@@ -1,5 +1,5 @@
 import "tailwindcss/tailwind.css";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import { TournamentDataProvider } from "../context/TournamnetDataProvider";
 import { ZKSyncDataProvider } from "../context/ZKSyncDataProvider";
 import { MediaConfiguration, Networks } from "@zoralabs/nft-components";

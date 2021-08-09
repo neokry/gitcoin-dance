@@ -13,13 +13,14 @@ export default function Home() {
 
   return (
     <Layout>
-      <div>
+      <div className="container mx-auto px-3 md:px-14 md:py-0 lg:px-10 xl:px-0">
         {/* Generates each round for tournament */}
-        {Array(roundCount)
+        {/* {Array(roundCount)
           .fill(0)
           .map((_, i) => (
             <Round roundNumber={initialRound - i} key={i} />
-          ))}
+          ))} */}
+          <Round roundNumber={3} key={3} />
       </div>
     </Layout>
   );

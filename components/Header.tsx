@@ -41,12 +41,12 @@ export default function Header() {
             </div>
             <div className="flex justify-end divide-x divide-purple-800 md:pl-12 lg:pl-0">
               <div className="text-right block px-5 md:px-0 md:mr-12 md:flex md:items-center lg:mr-8 lg:block">
-                <span className="font-black text-sm">Collected  in round 11</span>
-                <p className="italic font-light text-4xl md:text-2xl md:pl-5 lg:pl-0 lg:text-4xl">${zkData.data.overallTotal?.toFixed(2) ?? "0"}</p>
+                <span className="primary-color font-black text-sm">Collected  in round 11</span>
+                <p className="primary-color italic font-light text-4xl md:text-2xl md:pl-5 lg:pl-0 lg:text-4xl">${zkData.data.overallTotal?.toFixed(2) ?? "0"}</p>
               </div>
               <div className="text-right block pl-4 md:pl-12 md:flex md:items-center lg:pl-5 lg:block">
-                <span className="font-black text-sm">Collected  in total</span>
-                <p className="italic font-light text-4xl md:text-2xl md:pl-5 lg:pl-0 lg:text-4xl">${zkData.data.overallTotal?.toFixed(2) ?? "0"}</p>
+                <span className="primary-color font-black text-sm">Collected  in total</span>
+                <p className="primary-color italic font-light text-4xl md:text-2xl md:pl-5 lg:pl-0 lg:text-4xl">${zkData.data.overallTotal?.toFixed(2) ?? "0"}</p>
               </div>
               {/* Total Collected: ${zkData.data.overallTotal?.toFixed(2) ?? "0"} */}
             </div>

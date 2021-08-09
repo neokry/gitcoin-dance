@@ -62,7 +62,7 @@ export default function Matchup() {
           />
         </div>
         <div className="my-14 md:mb-0 md:mt-6 md:w-28 lg:40 lg:mt-24">
-          <div className="vs-text md:vs-text">
+          <div className="primary-color text-center versus-side">
             <span className="font-light text-center text-5xl italic">vs</span>
           </div>
           <p className="text-center mt-6 md:mt-3">

@@ -149,10 +149,13 @@ const Content = ({
     <div>
       <div>
         {/* NFT media (assumed to be an image) */}
-        <div className="relative">
+        <div className="relative"> {/* if game is losed added this class name "gamelosing"*/}
           <img className="w-full h-48 lg:h-80 object-cover"
             src={data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image}
             alt="image" />
+            {/* <div className="game-losing">
+              <Image src={losingLogo} alt="game_losing"/>
+            </div> */}
         </div>
 
         <div className="block mt-5 lg:flex lg:justify-between">
@@ -211,7 +214,7 @@ const Content = ({
 
             {/* Input token amount to vote with */}
             <input className={`appearance-none block w-full text-white
-          focus:outline-none focus:bg-transparent focus:border-purple-500 rounded py-3 px-4 mb-3 bg-transparent ${amount ? 'opacity-one' : ''} gitcoin-border`}
+          focus:outline-none focus:bg-transparent focus:border-purple-500 rounded py-3 px-4 mb-3 bg-transparent ${amount ? 'opacity-100' : ''} gitcoin-border`}
               type="text" placeholder="Enter amount"
               onChange={(e) => {
                 setAmount(e.target.value);
