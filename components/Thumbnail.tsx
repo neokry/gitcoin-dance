@@ -21,7 +21,7 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
     // }`}
     <div className={`relative ${!isWinner ? 'gamelosing' : 'game-win'}`}>
       {/* Displays NFT media (assumed to be an image)*/}
-      <div className="object-none object-center w-32 h-24 xl:w-52 xl:h-36 2xl:w-96 2xl:h-44">
+      <div className="object-none object-center w-32 h-24 xl:w-52 xl:h-36">
         <MediaObject contentURI={
           data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image
         }
