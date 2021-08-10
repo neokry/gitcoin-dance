@@ -196,10 +196,7 @@ const Content = ({
       {/* {isCurrentRound ? ( */}
       <div className="lg:divide-y-4 lg:divide-gitcoin">
         <div className="lg:flex lg:justify-between lg:items-center">
-          <form className="my-8 flex" onSubmit={(e) => {
-            e.preventDefault();
-            checkout(amount, parseInt(tokenId));
-          }}>
+          <div className="my-8 flex">
             {/* Select a token to vote with */}
             <select value={tokenId} className="w-1/3 bg-transparent focus:outline-none text-white h-14 mr-5 border-b-2 border-indigo"
               onChange={(e) => {
@@ -220,9 +217,12 @@ const Content = ({
                 setAmount(e.target.value);
               }}
               value={amount} name="amount" />
-          </form>
+          </div>
           {/* Submit the vote */}
-          <button className="block w-full lg:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-bold py-2 px-4 rounded-full">
+          <button type="button" onClick={(e) => {
+            e.preventDefault();
+            checkout(amount, parseInt(tokenId));
+          }} className="block w-full lg:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-bold py-2 px-4 rounded-full">
             Vote!
           </button>
         </div>
