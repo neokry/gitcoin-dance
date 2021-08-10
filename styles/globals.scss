@@ -50,15 +50,6 @@ a {
   bottom: -20px;
   z-index: 99;
   left: 30%;
-  &.left-60 {
-    left: 60%;
-  }
-  &.left-44 {
-    left: 44%;
-  }
-  &.bottom-56 {
-    bottom: -56%;
-  }
 }
 .gitcoin-border {
   opacity: 0.5;
@@ -120,6 +111,7 @@ a {
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: rgba(14, 3, 51, 0.78);
+  border-right: 6px solid $color-primary;
 }
 .footer {
   background: rgba(0, 0, 0, 0.4);
@@ -157,6 +149,9 @@ a {
       }
     }
   }
+  .final-winner-text {
+    display: none;
+  }
   .tournament-bracket-match {
     display: flex; 
     outline: none;
@@ -169,7 +164,7 @@ a {
       width: 2.1em;
       height: 10%;
       position: absolute;
-      left: -17%;
+      left: -18.3%;
       z-index: 1;
     }
     &::before {
@@ -183,12 +178,50 @@ a {
       transform: translate(0, -1px);
     }
   }
+  &:first-child {
+    .tournament-bracket-match {
+      &::before,
+      &::after {
+        content: none;
+      }
+    }
+  }
+  &:nth-child(2),
+  &:nth-child(4) {
+    .versus-main {
+      left: 44%;
+      bottom: -56%;
+    }
+  }
   &:nth-child(3) {
+    .final-winner {
+      border: 5px solid $color-primary;
+      padding: 10px;
+      .final-winner-text {
+        display: block;
+      }
+    }
+    .versus-main {
+      left: 44%;
+    }
     .tournament-item-right {
       .tournament-bracket-match::before,
       .tournament-bracket-match::after {
         right: -17.5%;
         left: auto;
+      }
+    }
+    .tournament-bracket-item {
+      &::after {
+        content: none;
+      }
+      &:nth-child(2){
+        .tournament-bracket-match {
+          &::before,
+          &::after {
+            left: 106%;
+          }
+        }
       }
     }
   }
@@ -200,7 +233,7 @@ a {
     .tournament-bracket-match {
       &::before,
       &::after {
-        left: 101.5%;
+        left: 108%;
         width: 1.9rem;
       }
     }
@@ -219,10 +252,14 @@ a {
       border-right: 0;
     }
     .tournament-bracket-match {
+      justify-content: flex-end;
       &::before,
       &::after {
         content: none;
       }
+    }
+    .game-player-name {
+      width: 88%;
     }
   }
 }
@@ -245,7 +282,7 @@ a {
 .tournament-bracket-round:nth-child(2) .tournament-bracket-item:nth-child(2),
 .tournament-bracket-round:nth-child(4) .tournament-bracket-item:first-child{
   &::after {
-    height: 150%;
+    height: 151%;
   }
 }
 @media (min-width: 1500px) {
@@ -293,14 +330,31 @@ a {
     height: 135%;
   }
 }
-@media (max-width: 1024px) {
-  .tournament-bracket-round {
-    .tournament-bracket-match {
-      &::before,
-      &::after {
-        left: 0;
+@media (min-width: 1300px) {
+  .tournament-bracket-round:nth-child(3) {
+    .team-win.margin-right-30 {
+      margin-right: 30px !important;
+      margin-left: 10px !important;
+    }
+    .team-win.margin-left-30 {
+      margin-left: 30px !important;
+      margin-right: 10px !important;
+    }
+    .tournament-bracket-item:nth-child(2) {
+      .tournament-bracket-match {
+        &::before,
+        &::after {
+          left: 121%;
+        }
       }
     }
+    .final-winner {
+      padding: 10px 10px 30px 10px;
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .tournament-bracket-round {
     &:first-child {
       .tournament-bracket-match {
         &::before,
@@ -310,6 +364,21 @@ a {
       }
     }
     &:nth-child(3) {
+      .tournament-bracket-item {
+        &:nth-child(2){
+          .tournament-bracket-match {
+            &::before,
+            &::after {
+              left: 83.3%;
+              width: 2rem;
+            }
+          }
+        }
+      }
+      .final-winner {
+        padding: 10px;
+        padding-bottom: 25px;
+      }
       .tournament-item-right {
         .tournament-bracket-match {
           &::before,
@@ -321,6 +390,7 @@ a {
     }
     &:nth-child(4) {
       .tournament-bracket-match {
+        justify-content: center;
         &::before,
         &::after {
           left: 84%;
@@ -350,5 +420,20 @@ a {
 @media (min-width: 600px) {
   .w-100vh {
     width: 100vh;
+  }
+}
+@media (max-width: 330px) {
+  .tournament-bracket-round:nth-child(3) {
+    .tournament-bracket-item {
+      &:nth-child(2){
+        .tournament-bracket-match {
+          &::before,
+          &::after {
+            left: 81.3%;
+            width: 0.5rem;
+          }
+        }
+      }
+    }
   }
 }

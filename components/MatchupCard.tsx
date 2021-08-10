@@ -5,7 +5,7 @@ import winningLogo from '../public/assets/img/winning_logo.svg';
 import losingLogo from '../public/assets/img/losing_logo.svg';
 import { TournamentDataContext } from "../context/TournamentDataContext";
 import { Fragment } from "react";
-import { NFTDataProvider } from "@zoralabs/nft-components";
+import { NFTDataProvider, MediaObject } from "@zoralabs/nft-components";
 import { CheckoutManager } from "zksync-checkout";
 import { ethers } from "ethers";
 import useSWR from "swr";
@@ -150,12 +150,12 @@ const Content = ({
       <div>
         {/* NFT media (assumed to be an image) */}
         <div className="relative"> {/* if game is losed added this class name "gamelosing"*/}
-          <img className="w-full h-48 lg:h-80 object-cover"
-            src={data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image}
-            alt="image" />
-            {/* <div className="game-losing">
-              <Image src={losingLogo} alt="game_losing"/>
-            </div> */}
+          <div className="w-full h-48 lg:h-80 object-cover">
+            <MediaObject contentURI={
+              data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image
+            }
+              metadata={metadata} />
+          </div>
         </div>
 
         <div className="block mt-5 lg:flex lg:justify-between">
@@ -196,10 +196,7 @@ const Content = ({
       {/* {isCurrentRound ? ( */}
       <div className="lg:divide-y-4 lg:divide-gitcoin">
         <div className="lg:flex lg:justify-between lg:items-center">
-          <form className="my-8 flex" onSubmit={(e) => {
-            e.preventDefault();
-            checkout(amount, parseInt(tokenId));
-          }}>
+          <div className="my-8 flex">
             {/* Select a token to vote with */}
             <select value={tokenId} className="w-1/3 bg-transparent focus:outline-none text-white h-14 mr-5 border-b-2 border-indigo"
               onChange={(e) => {
@@ -220,11 +217,14 @@ const Content = ({
                 setAmount(e.target.value);
               }}
               value={amount} name="amount" />
-          </form>
+          </div>
           {/* Submit the vote */}
-          <button className="block w-full lg:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-bold py-2 px-4 rounded-full">
+          <button type="button" onClick={(e) => {
+            e.preventDefault();
+            checkout(amount, parseInt(tokenId));
+          }} className="block w-full lg:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-bold py-2 px-4 rounded-full">
             Vote!
-        </button>
+          </button>
         </div>
         {/* ) : (
         <div className="text-indigo-900 text-indigo">Round Ended</div>

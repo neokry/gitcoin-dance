@@ -2,6 +2,9 @@ import { NFTDataContext } from "@zoralabs/nft-components";
 import { Fragment, useContext } from "react";
 import Image from 'next/image';
 import losingLogo from '../public/assets/img/losing_logo.svg';
+import {
+  MediaObject,
+} from "@zoralabs/nft-components";
 
 export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
   const {
@@ -16,19 +19,19 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
     //   (isWinner === true && "border-green-600") ||
     //   (isWinner == false && "border-red-600")
     // }`}
-    <div className={`relative ${!isWinner ? 'gamelosing': 'game-win'}`}>
+    <div className={`relative ${!isWinner ? 'gamelosing' : 'game-win'}`}>
       {/* Displays NFT media (assumed to be an image)*/}
-      <img className="object-none object-center w-32 h-24 xl:w-52 xl:h-36 2xl:w-96 2xl:h-44"
-        src={
+      <div className="object-none object-center w-32 h-24 xl:w-52 xl:h-36">
+        <MediaObject contentURI={
           data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image
         }
-        alt="image"
-      />
+          metadata={metadata} />
+      </div>
 
       {/* NFT title */}
       <p className="game-player-name text-sm px-2 italic text-pink font-extrabold xl:px-5 xl:text-base">{metadata.name}</p>
-      <div className={`game-losing ${!isWinner ? 'block': 'hidden'}`} >
-        <Image src={losingLogo} alt="game_losing"/>
+      <div className={`game-losing ${!isWinner ? 'block' : 'hidden'}`} >
+        <Image src={losingLogo} alt="game_losing" />
       </div>
     </div>
   );
