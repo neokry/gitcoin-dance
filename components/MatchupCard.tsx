@@ -3,6 +3,8 @@ import { useContext, useState } from "react";
 import Image from 'next/image';
 import winningLogo from '../public/assets/img/winning_logo.svg';
 import losingLogo from '../public/assets/img/losing_logo.svg';
+import winningLogoSM from '../public/assets/img/winning_logo_sm.svg';
+import losingLogoSM from '../public/assets/img/losing_logo_sm.svg';
 import { TournamentDataContext } from "../context/TournamentDataContext";
 import { Fragment } from "react";
 import { NFTDataProvider, MediaObject } from "@zoralabs/nft-components";
@@ -10,6 +12,7 @@ import { CheckoutManager } from "zksync-checkout";
 import { ethers } from "ethers";
 import useSWR from "swr";
 import { ZKSyncDataContext } from "../context/ZKSyncDataContext";
+import usePlayer from "../hooks/usePlayer";
 
 export type ZKSyncToken = {
   id: number;
@@ -22,62 +25,23 @@ export type MatchupCardProps = {
   playerIndex: number;
   isCurrentRound: boolean;
   roundNumber: number;
+  isWinning: boolean;
 };
 
 export default function MatchupCard({
   playerIndex,
   isCurrentRound,
   roundNumber,
+  isWinning
 }: MatchupCardProps) {
   const { tournament } = useContext(TournamentDataContext);
-  const { zkData } = useContext(ZKSyncDataContext);
   const swr = useSWR("https://api.zksync.io/api/v0.1/tokens");
+  const { funds } = usePlayer(playerIndex, roundNumber);
 
   if (!tournament.data || !swr.data) return <Fragment />;
   const { data } = tournament;
   const tokenList: ZKSyncToken[] = swr.data;
 
-  //pulls player score data from contract
-  const getRoundScores = (queryRound: number) => {
-    if (!tournament.data) return;
-    const { roundHistory } = tournament.data;
-
-    if (!roundHistory) return;
-    const roundData = roundHistory.find(
-      (x) => x.round.toNumber() === queryRound
-    );
-
-    if (!roundData) return;
-    const { playersScores } = roundData;
-    if (playersScores) return playersScores[playerIndex].toNumber();
-  };
-
-  let playerFunds = 0;
-  if (zkData.data && data.wallets && isCurrentRound) {
-    //Get players funds from zkSync
-    const player = data.wallets[playerIndex];
-    const playerTotal = zkData.data.accountsTotals?.find(
-      (x) => x.address.toLowerCase().localeCompare(player.toLowerCase()) === 0
-    );
-
-    //Subtract current funds from prev round score
-    if (tournament.data && tournament.data.currentBalances) {
-      const balance = tournament.data.currentBalances[playerIndex];
-      if (playerTotal)
-        playerFunds = playerTotal.totalBalanceUSD - balance.toNumber();
-    }
-  } else if (tournament.data && roundNumber === 1) {
-    const {
-      data: { tournamentResult },
-    } = tournament;
-    if (tournamentResult && tournamentResult.playersScores)
-      playerFunds = tournamentResult.playersScores[playerIndex].toNumber();
-  } else {
-    //get round score from contract
-    playerFunds = getRoundScores(roundNumber) ?? 0;
-  }
-
-  if (playerFunds < 0) playerFunds = 0;
 
   //Sends player to zksync checkout
   const checkout = async (amount: string, tokenId: number) => {
@@ -115,7 +79,8 @@ export default function MatchupCard({
         checkout={checkout}
         tokenList={tokenList}
         isCurrentRound={isCurrentRound}
-        playerFunds={playerFunds}
+        playerFunds={funds}
+        isWinning={isWinning}
       />
     </NFTDataProvider>
   );
@@ -127,11 +92,13 @@ const Content = ({
   tokenList,
   isCurrentRound,
   playerFunds,
+  isWinning
 }: {
   checkout: (amount: string, tokenId: number) => void;
   tokenList: ZKSyncToken[];
   isCurrentRound: boolean;
   playerFunds: number;
+  isWinning: boolean;
 }) => {
   const {
     nft: { data },
@@ -180,10 +147,10 @@ const Content = ({
             </div>
             <div className="flex items-stretch w-100 lg:hidden">
               <div className="mr-2 self-end">
-                <h4 className="text-indigo-900 text-indigo text-right text-base font-light italic">WINNING!</h4>
-                <p className="text-indigo-900 text-indigo text-right text-xs">Way to go, voters!</p>
+                <h4 className="text-indigo-900 text-indigo text-right text-base font-light italic">{isWinning ? "WINNING!" : "LOSING!"}</h4>
+                <p className="text-indigo-900 text-indigo text-right text-xs">{isWinning ? "Way to go, voters!" : "Support your favorite by voting!"}</p>
               </div>
-              <Image src={winningLogo} alt="winningLogo" />
+              <Image src={isWinning ? winningLogoSM : losingLogoSM} alt="winningLogo" />
             </div>
           </div>
         </div>
@@ -232,11 +199,11 @@ const Content = ({
         <div className="hidden lg:block my-20">
           <div className="flex items-center mx-20 py-9">
             <div>
-              <Image src={losingLogo} alt="winningLogo" className="w-100" />
+              <Image src={isWinning ? winningLogo : losingLogo} alt="winningLogo" className="w-100" />
             </div>
             <div className="ml-4">
-              <h4 className="text-indigo-900 text-4xl text-indigo text-base font-light italic">LOSING!</h4>
-              <p className="text-indigo-900 text-indigo text-xs">Support your favorite by voting!</p>
+              <h4 className="text-indigo-900 text-4xl text-indigo text-base font-light italic">{isWinning ? "WINNING!" : "LOSING!"}</h4>
+              <p className="text-indigo-900 text-indigo text-xs">{isWinning ? "Way to go, voters!" : "Support your favorite by voting!"}</p>
             </div>
           </div>
         </div>
