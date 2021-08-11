@@ -23,7 +23,7 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
       {/* Displays NFT media (assumed to be an image)*/}
       <div className="object-none object-center w-32 h-24 xl:w-52 xl:h-36">
         <MediaObject contentURI={
-          data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image
+          data && "zoraNFT" in data ? data.zoraNFT.contentURI : undefined
         }
           metadata={metadata} />
       </div>

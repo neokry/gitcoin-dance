@@ -152,7 +152,7 @@ const Content = ({
         <div className="relative"> {/* if game is losed added this class name "gamelosing"*/}
           <div className="w-full h-48 lg:h-80 object-cover">
             <MediaObject contentURI={
-              data && "zoraNFT" in data ? data.zoraNFT.contentURI : metadata.image
+              data && "zoraNFT" in data ? data.zoraNFT.contentURI : undefined
             }
               metadata={metadata} />
           </div>
