@@ -35,7 +35,7 @@ export default function MatchupThumbnail({ roundNumber, players, isLeading }: { 
           </div>
         </div>
         <div className="versus-main">
-          <h1 className="primary-color italic font-light text-lg">VS</h1>
+          <h1 className="primary-color italic font-light text-lg">VS.</h1>
         </div>
       </li>
       <li className={`relative flex flex-initial justify-center flex-col ${isLeading ? "items-start" : "items-end"} ${isWinner(pid2) && finalWinner(pid2) ? "game-win" : "game-loss"} py-10 tournament-bracket-item`}> {/* if team win add this calss name "game-win" else "game-loss */}
