@@ -17,7 +17,6 @@ export function useTournament(
   const [error, setError] = useState<string | undefined>("");
 
   const loadTournament = async (tournamentId: number, chainId: number) => {
-    console.log("loading tournament");
     setLoading(true);
     const network = ethers.providers.getNetwork(chainId);
     const provider = new ethers.providers.InfuraProvider(
@@ -40,7 +39,6 @@ export function useTournament(
     }
     if (data) {
       setData(data);
-      console.log("tournamnet loaded");
     }
     setLoading(false);
   };

@@ -82,7 +82,6 @@ export class ZKSyncFetcher {
             const formattedBalance = ethers.utils.formatUnits(bal.toString(), tokenInfo.decimals)
 
             const usd = parseFloat(formattedBalance) * price;
-            console.log("balance", usd);
 
             total += usd
         }

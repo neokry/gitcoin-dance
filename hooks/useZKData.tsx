@@ -20,7 +20,6 @@ export function useZKData(accounts: string[], chainId: number): useZKDataType {
 
     try {
       const data = await fetcher.fetchZKData(accounts);
-      console.log("data", data);
       setData(data);
     } catch (err) {
       setError(err);
