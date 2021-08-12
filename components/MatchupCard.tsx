@@ -1,5 +1,5 @@
 import { NFTDataContext } from "@zoralabs/nft-components";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from 'next/image';
 import winningLogo from '../public/assets/img/winning_logo.svg';
 import losingLogo from '../public/assets/img/losing_logo.svg';
@@ -37,6 +37,7 @@ export default function MatchupCard({
   const { tournament } = useContext(TournamentDataContext);
   const swr = useSWR("https://api.zksync.io/api/v0.1/tokens");
   const { funds } = usePlayer(playerIndex, roundNumber);
+  console.log("funds", funds)
 
   if (!tournament.data || !swr.data) return <Fragment />;
   const { data } = tournament;

@@ -11,7 +11,6 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
     nft: { data },
     metadata: { metadata },
   } = useContext(NFTDataContext);
-  console.log(data);
   if (!metadata || !data) return <Fragment />;
 
   return (
@@ -19,7 +18,7 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
     //   (isWinner === true && "border-green-600") ||
     //   (isWinner == false && "border-red-600")
     // }`}
-    <div className={`relative ${!isWinner ? 'gamelosing' : 'game-win'}`}>
+    <div className={`relative ${isWinner !== null && !isWinner ? 'gamelosing' : 'game-win'}`}>
       {/* Displays NFT media (assumed to be an image)*/}
       <div className="object-none object-center w-32 h-24 xl:w-52 xl:h-36">
         <MediaObject contentURI={
@@ -30,7 +29,7 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
 
       {/* NFT title */}
       <p className="game-player-name text-sm px-2 italic text-pink font-extrabold xl:px-5 xl:text-base">{metadata.name}</p>
-      <div className={`game-losing ${!isWinner ? 'block' : 'hidden'}`} >
+      <div className={`game-losing ${isWinner !== null && !isWinner ? 'block' : 'hidden'}`} >
         <Image src={losingLogo} alt="game_losing" />
       </div>
     </div>

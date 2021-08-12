@@ -1,13 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { TournamentDataContext } from "../context/TournamentDataContext";
-import { Fragment } from "react";
-import useSWR from "swr";
 import { ZKSyncDataContext } from "../context/ZKSyncDataContext";
 
 export default function usePlayer(playerIndex: number, round: number): { funds: number, getPlayerFunds: () => void } {
     const { tournament } = useContext(TournamentDataContext);
     const { zkData } = useContext(ZKSyncDataContext);
-    const swr = useSWR("https://api.zksync.io/api/v0.1/tokens");
     const [funds, setFunds] = useState<number>(0);
 
     //pulls player score data from contract
@@ -20,13 +17,34 @@ export default function usePlayer(playerIndex: number, round: number): { funds: 
             (x) => x.round.toNumber() === queryRound
         );
 
+        //Get position of winners from last round
+        //This is required because the player scores array is order like the bracket winners array
+        const lastRoundData = roundHistory.find(x => x.round.toNumber() === queryRound + 1);
+        let position = -1;
+        if (lastRoundData) {
+            position = lastRoundData.bracketWinners.findIndex(x => x == playerIndex);
+        }
+
+        if (queryRound == 1 && position) {
+            const {
+                data: { tournamentResult },
+            } = tournament;
+            console.log("res", tournamentResult?.playersScores)
+            if (tournamentResult && tournamentResult.playersScores)
+                return tournamentResult.playersScores[position].toNumber();
+        }
+
         if (!roundData) return;
         const { playersScores } = roundData;
-        if (playersScores) return playersScores[playerIndex].toNumber();
+        console.log("last round", lastRoundData?.bracketWinners);
+        if (playersScores) {
+            if (position !== -1) return playersScores[position].toNumber();
+            else return playersScores[playerIndex].toNumber();
+        };
     };
 
     const getPlayerFunds = () => {
-        if (!tournament.data || !swr.data || playerIndex < 0) return;
+        if (!tournament.data || playerIndex < 0) return;
         const { data } = tournament;
         const isCurrentRound = round === data.currentRound?.toNumber();
 
@@ -44,12 +62,6 @@ export default function usePlayer(playerIndex: number, round: number): { funds: 
                 if (playerTotal)
                     playerFunds = playerTotal.totalBalanceUSD - balance.toNumber();
             }
-        } else if (tournament.data && round === 1) {
-            const {
-                data: { tournamentResult },
-            } = tournament;
-            if (tournamentResult && tournamentResult.playersScores)
-                playerFunds = tournamentResult.playersScores[playerIndex].toNumber();
         } else {
             //get round score from contract
             playerFunds = getRoundScores(round) ?? 0;
@@ -57,12 +69,13 @@ export default function usePlayer(playerIndex: number, round: number): { funds: 
 
         if (playerFunds < 0) playerFunds = 0;
         setFunds(playerFunds);
+        console.log("funds3", playerFunds)
     }
 
     useEffect(() => {
         getPlayerFunds();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [playerIndex])
+    }, [playerIndex, zkData.data, tournament.data])
 
     return { funds, getPlayerFunds }
 }
