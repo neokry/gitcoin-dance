@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Head>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" />
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
-                <link href="http://fonts.cdnfonts.com/css/gobold" rel="stylesheet" />
+                <link href="https://fonts.cdnfonts.com/css/gobold" rel="stylesheet" />
               </Head>
               <Component {...pageProps} />
             </Fragment>
