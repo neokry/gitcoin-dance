@@ -6,6 +6,8 @@ import { MediaConfiguration, Networks } from "@zoralabs/nft-components";
 import { SWRConfig } from "swr";
 import type { AppProps } from "next/app";
 import axios from "axios";
+import Head from "next/head";
+import { Fragment } from "react";
 
 const tournamentId: number = parseInt(
   process.env.NEXT_PUBLIC_TOURNAMENT_ID ?? "1"
@@ -26,7 +28,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <TournamentDataProvider tournamentId={tournamentId} chainId={chainId}>
           <ZKSyncDataProvider chainId={chainId}>
-            <Component {...pageProps} />
+            <Fragment>
+              <Head>
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" />
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
+                <link href="http://fonts.cdnfonts.com/css/gobold" rel="stylesheet" />
+              </Head>
+              <Component {...pageProps} />
+            </Fragment>
           </ZKSyncDataProvider>
         </TournamentDataProvider>
       </MediaConfiguration>

@@ -18,32 +18,40 @@ export default function Footer() {
           </Link>
           <p className="info self-end text-base md:pl-10 md:w-2/4">
             gitcoin.dance is an initiative by
-            <Link href="/" passHref={true}>
+            <Link href="https://gitcoin.co/" passHref={true}>
               <a className="underline"> Gitcoin</a>
             </Link>.
             App created by
             <Link href="/" passHref={true}>
               <a className="underline"> PerfectPool</a>
+            </Link>,
+            <Link href="https://upstateinteractive.io/" passHref={true}>
+              <a className="underline"> Upstate Interactive</a>
             </Link> and 
-            <Link href="/" passHref={true}>
+            <Link href="https://www.raidguild.org/" passHref={true}>
               <a className="underline"> Raid Guild</a>
             </Link>.
           </p>
           </div>
           <div className="block pt-6 md:pt-0 md:flex md:mt-5 md:divide-x md:divide-purple-800 lg:block lg:mt-0 lg:divide-x-0 lg:self-end">
             <p className="text-base underline text-indigo md:pr-3 lg:text-right">
-              <Link href="/" passHref={true}>
+              <Link href="https://gitcoin.co/" passHref={true}>
                 gitcoin.co
               </Link>
             </p>
             <p className="text-base underline text-indigo md:px-3 lg:text-right lg:pt-2">
-              <Link href="/" passHref={true}>
+              <Link href="https://www.raidguild.org/" passHref={true}>
                 raidguild.org
               </Link>
             </p>
             <p className="text-base underline text-indigo md:px-3 lg:text-right lg:pt-2">
               <Link href="/" passHref={true}>
                 perfectpool.io
+              </Link>
+            </p>
+            <p className="text-base underline text-indigo md:px-3 lg:text-right lg:pt-2">
+              <Link href="https://upstateinteractive.io/" passHref={true}>
+                upstateinteractive.io
               </Link>
             </p>
           </div>

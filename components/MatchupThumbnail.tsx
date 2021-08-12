@@ -19,7 +19,7 @@ export default function MatchupThumbnail({ roundNumber, players, isLeading }: { 
   return (
     <Fragment>
       <li className={`relative flex flex-initial justify-center flex-col ${isLeading ? "items-start" : "items-end"} ${isWinner(pid1) && finalWinner(pid1) ? "game-win" : "game-loss"} py-10 tournament-bracket-item`}> {/* if team win add this calss name "game-win" else "game-loss */}
-        <div className={`tournament-bracket-match w-48 ${finalWinner(pid1) ? 'margin-left-30' : ''} ${roundNumber < 3 && (isLeading ? "ml-9" : "mr-9")} ${isWinner(pid1) && finalWinner(pid1) ? "team-win" : "team-loss"}`}> {/* if team win add this calss name "team-win" else "team-loss"*/}
+        <div className={`tournament-bracket-match w-48 ${isWinner(pid1) && finalWinner(pid1) ? "team-win" : "team-loss"}`}> {/* if team win add this calss name "team-win" else "team-loss"*/}
           <div className={`${finalWinner(pid1) ? 'final-winner' : ''}`}>
             <h1 className="final-winner-text pb-4 text-white italic font-light text-sm md:text-lg text-center">YOU WIN!</h1>
             <NFTDataProvider key={roundNumber + "-" + pid1}
@@ -38,7 +38,7 @@ export default function MatchupThumbnail({ roundNumber, players, isLeading }: { 
         </div>
       </li>
       <li className={`relative flex flex-initial justify-center flex-col ${isLeading ? "items-start" : "items-end"} ${isWinner(pid2) && finalWinner(pid2) ? "game-win" : "game-loss"} py-10 tournament-bracket-item`}> {/* if team win add this calss name "game-win" else "game-loss */}
-        <div className={`tournament-bracket-match w-48 ${finalWinner(pid2) ? 'margin-right-30' : ''} ${roundNumber < 3 && (isLeading ? "ml-9" : "mr-9")} ${isWinner(pid2) && finalWinner(pid2) ? "team-win" : "team-loss"}`}> {/* if team win add this calss name "team-win" else "team-loss"*/}
+        <div className={`tournament-bracket-match w-48 ${isWinner(pid2) && finalWinner(pid2) ? "team-win" : "team-loss"}`}> {/* if team win add this calss name "team-win" else "team-loss"*/}
           <div className={`${finalWinner(pid2) ? 'final-winner' : ''}`}>
             <h1 className="final-winner-text pb-4 text-white italic font-light text-sm md:text-lg text-center">YOU WIN!</h1>
             <NFTDataProvider key={roundNumber + "-" + pid2}

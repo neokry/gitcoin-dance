@@ -168,10 +168,10 @@ a {
     &::after {
       content: "";
       display: block;
-      width: 2.1em;
+      width: 1.6em;
       height: 10%;
       position: absolute;
-      left: -18.3%;
+      left: -17%;
       z-index: 1;
     }
     &::before {
@@ -191,6 +191,19 @@ a {
       &::after {
         content: none;
       }
+    }
+  }
+  &:nth-child(2),
+  &:nth-child(3) {
+    .tournament-bracket-match {
+      justify-content: center;
+    }
+  }
+  &:nth-child(2),
+  &:nth-child(3),
+  &:nth-child(4) {
+    .tournament-bracket-item {
+      align-items: center;
     }
   }
   &:nth-child(2),
@@ -244,7 +257,7 @@ a {
       &::before,
       &::after {
         left: 108%;
-        width: 1.9rem;
+        width: 1.11rem;
       }
     }
   }
@@ -271,23 +284,25 @@ a {
     .game-player-name {
       width: 88%;
     }
+    .versus-main {
+      left: 55%;
+    }
   }
 }
 
 .game-player-name:after {
-    position: absolute;
-		z-index: 0;
-		content: "";
-		right: -4%;
-		top: 0;
-		height: 100%;
-		width: 100%;
-		background-color: inherit;
-		-webkit-transform: skewX(20deg);
-		-moz-transform: skewX(20deg);
-		-ms-transform: skewX(20deg);
-		transform: skewX(20deg);
-		border-right: 8px solid #6F3FF5;
+  position: absolute;
+      z-index: 0;
+      content: "";
+      right: -4%;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      -webkit-transform: skewX(20deg);
+      -moz-transform: skewX(20deg);
+      -ms-transform: skewX(20deg);
+      transform: skewX(20deg);
+      border-right: 8px solid #6F3FF5;
 }
 
 .tournament-bracket-item.game-win::after,
@@ -318,20 +333,35 @@ a {
   .tournament-bracket-round {
     .tournament-bracket-item {
       &::after {
-        width: 7.5em;
+        width: 4em;
       }
     }
     .tournament-bracket-match {
       &::before,
       &::after {
-        left: -30%;
+        left: -30.2%;
+        width: 3.1em;
       }
     }
-    &:nth-child(2),
+    &:first-child,
+    &:last-child {
+      .tournament-bracket-item {
+        &::after {
+          width: 7.3em;
+        }
+      }
+    }
+    &:nth-child(2) {
+      .tournament-bracket-item {
+        &::after {
+          height: 30%;
+        }
+      }
+    }
     &:nth-child(4) {
       .tournament-bracket-item {
         &::after {
-          height: 34%;
+          height: 51%;
         }
       }
     }
@@ -344,38 +374,43 @@ a {
           }
         }
       }
+      .tournament-bracket-match {
+        &:last-child {
+          &::before,
+          &::after {
+            left: 111% !important;
+            width: 2.4rem !important;
+          }
+        }
+      }
     }
     &:nth-child(4) {
       .tournament-bracket-match {
         &::before,
         &::after {
-          left: 114.5%;
+          width: 2.77rem;
         }
+      }
+    }
+    &:last-child {
+      .versus-main {
+        left: 60%;
       }
     }
   }
   .tournament-bracket-round:nth-child(2)
-    .tournament-bracket-item:nth-child(2)::after,
-  .tournament-bracket-round:nth-child(4)
-    .tournament-bracket-item:first-child::after {
-    height: 135%;
+    .tournament-bracket-item:nth-child(2)::after{
+    height: 172%;
   }
 }
 @media (min-width: 1300px) {
   .tournament-bracket-round:nth-child(3) {
-    .team-win.margin-right-30 {
-      margin-right: 30px !important;
-      margin-left: 10px !important;
-    }
-    .team-win.margin-left-30 {
-      margin-left: 30px !important;
-      margin-right: 10px !important;
-    }
     .tournament-bracket-item:nth-child(2) {
       .tournament-bracket-match {
         &::before,
         &::after {
-          left: 121%;
+          left: 112%;
+          width: 0.66em;
         }
       }
     }
@@ -386,6 +421,13 @@ a {
 }
 @media (max-width: 1024px) {
   .tournament-bracket-round {
+    .tournament-bracket-match {
+      &::before,
+        &::after {
+          width: 1.96em;
+          left: 0.5%;
+        }
+    }
     &:first-child {
       .tournament-bracket-match {
         &::before,
@@ -400,8 +442,8 @@ a {
           .tournament-bracket-match {
             &::before,
             &::after {
-              left: 83.3%;
-              width: 2rem;
+              left: 91%;
+              width: 1.1rem;
             }
           }
         }
@@ -425,7 +467,13 @@ a {
         &::before,
         &::after {
           left: 84%;
+          width: 1.9rem;
         }
+      }
+    }
+    &:last-child {
+      .versus-main {
+        left: 60%;
       }
     }
   }
@@ -450,20 +498,5 @@ a {
 @media (min-width: 600px) {
   .w-100vh {
     width: 100vh;
-  }
-}
-@media (max-width: 330px) {
-  .tournament-bracket-round:nth-child(3) {
-    .tournament-bracket-item {
-      &:nth-child(2) {
-        .tournament-bracket-match {
-          &::before,
-          &::after {
-            left: 81.3%;
-            width: 0.5rem;
-          }
-        }
-      }
-    }
   }
 }
