@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { TournamentDataContext } from "../context/TournamentDataContext";
 
-export default function useRound(roundNumber: number): { players: number[], isWinner: (playerId: number) => boolean | null } {
+export default function useRound(roundNumber: number): { players: number[], isWinner: (playerId: number) => boolean | null,finalWinner : (playerId: number) => boolean | null } {
   const { tournament } = useContext(TournamentDataContext);
   const initialRound = parseInt(process.env.NEXT_PUBLIC_INITIAL_ROUND ?? "");
   const playerCount = parseInt(process.env.NEXT_PUBLIC_PLAYER_COUNT ?? "");
@@ -31,6 +31,24 @@ export default function useRound(roundNumber: number): { players: number[], isWi
     }
   };
 
+  const finalWinner = (playerId: number): boolean | null => {
+    switch (roundNumber) {
+      case 1:
+        if (!data?.bracketWinners) return null;
+        return playerId === data.bracketWinners[0];
+        default:
+          const roundData = data?.roundHistory?.filter(
+            (x) => x.round.toNumber() == roundNumber
+          );
+          if (!roundData || roundData.length < 1) return null;
+          const winners = roundData[0].bracketWinners.slice(
+            0,
+            Math.pow(2, roundNumber - 1)
+          );
+          return winners.find((x) => x == playerId) !== undefined;
+    }
+  }
+
 
   //Gets players in the current round
   let players: number[] = [];
@@ -53,5 +71,5 @@ export default function useRound(roundNumber: number): { players: number[], isWi
       break;
   }
 
-  return { players, isWinner }
+  return { players, isWinner, finalWinner }
 }

@@ -8,7 +8,9 @@ import useRound from "../hooks/useRound";
 export default function MatchupThumbnail({ roundNumber, players, isLeading }: { roundNumber: number, players: number[], isLeading: boolean }) {
   const { tournament } = useContext(TournamentDataContext);
   const { isWinner } = useRound(roundNumber);
-  const finalWinner = (id: number) => roundNumber == 1 && isWinner(id);
+  // const finalWinner = (id: number) => roundNumber == 1 && isWinner(id);
+
+  const { finalWinner } = useRound(1);
 
   if (!tournament.data) return <Fragment />;
   const { data } = tournament;
