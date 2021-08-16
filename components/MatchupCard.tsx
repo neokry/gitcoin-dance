@@ -117,25 +117,30 @@ const Content = ({
     <div>
       <div>
         {/* NFT media (assumed to be an image) */}
-        <div className="relative"> {/* if game is losed added this class name "gamelosing"*/}
+        <div className={`relative in-detail ${isWinning !== null && !isWinning ? 'gamelosing' : 'game-win'}`}>
           <div className="w-full h-48 lg:h-80 object-cover">
             <MediaObject contentURI={
               data && "zoraNFT" in data ? data.zoraNFT.contentURI : undefined
             }
               metadata={metadata} />
           </div>
+          <div className={`game-losing ${isWinning !== null && !isWinning ? 'block' : 'hidden'}`} >
+            <Image src={losingLogo} alt="game_losing" />
+          </div>
         </div>
 
         <div className="block mt-5 lg:flex lg:justify-between">
           <div>
             {/* NFT creator information */}
-            <h1 className="text-pink-600 text-pink font-extrabold italic text-xl">{metadata.name}</h1>
+            <h1 className="text-pink-600 text-pink font-extrabold italic text-lg lg:text-2xl font-montserrat">{metadata.name}</h1>
             {creator && (
-              <p className="text-indigo-900 text-indigo my-3">
-                <span className="opacity-40">created by:</span>{" "}
-                {creator.slice(0, addressSlice + 2) +
-                  "..." +
-                  creator.slice(creator.length - addressSlice, creator.length)}
+              <p className="text-indigo-900 text-indigo text-xs lg:text-sm my-3 font-poppin font-bold">
+                <span className="font-normal font-normal opacity-70">created by </span>{" "}
+                <span className="underline">
+                  {creator.slice(0, addressSlice + 2) +
+                    "..." +
+                    creator.slice(creator.length - addressSlice, creator.length)}
+                </span>
               </p>
             )}
           </div>
@@ -143,13 +148,13 @@ const Content = ({
           {/* Amount raised by the NFT */}
           <div className="flex justify-between">
             <div className="w-100">
-              <p className="text-indigo-900 text-indigo">Collected by this NFT</p>
-              <h1 className="text-pink-600 text-pink text-2xl">${playerFunds.toFixed(2)}</h1>
+              <p className="text-indigo-900 text-indigo text-xs lg:text-sm font-poppin font-normal">Collected by this NFT</p>
+              <h1 className="text-pink-600 text-pink text-xl lg:text-3xl">${playerFunds.toFixed(2)}</h1>
             </div>
             <div className="flex items-stretch w-100 lg:hidden">
               <div className="mr-2 self-end">
                 <h4 className="text-indigo-900 text-indigo text-right text-base font-light italic">{isWinning ? "WINNING!" : "LOSING!"}</h4>
-                <p className="text-indigo-900 text-indigo text-right text-xs">{isWinning ? "Way to go, voters!" : "Support your favorite by voting!"}</p>
+                <p className="text-indigo-900 text-indigo text-right text-xs lg:text-sm font-poppin font-normal">{isWinning ? "Way to go, voters!" : "Support your favorite by voting!"}</p>
               </div>
               <Image src={isWinning ? winningLogoSM : losingLogoSM} alt="winningLogo" />
             </div>
@@ -157,16 +162,16 @@ const Content = ({
         </div>
 
         {/* NFT description */}
-        <p className="text-indigo-900 text-indigo">{metadata.description}</p>
+        <p className="text-indigo-900 text-xs lg:text-sm text-indigo font-poppin font-normal">{metadata.description}</p>
       </div>
 
       {/* Allows users to vote for this NFT by sending funds through ZKSync */}
       {/* {isCurrentRound ? ( */}
       <div className="lg:divide-y-4 lg:divide-gitcoin">
-        <div className="lg:flex lg:justify-between lg:items-center">
+        <div className="xl:flex xl:justify-between xl:items-center">
           <div className="my-8 flex">
             {/* Select a token to vote with */}
-            <select value={tokenId} className="w-1/3 bg-transparent focus:outline-none text-white h-14 mr-5 border-b-2 border-indigo"
+            <select value={tokenId} className="w-1/3 bg-transparent font-poppin font-bold focus:outline-none text-white h-14 mr-5 border-b-2 border-indigo"
               onChange={(e) => {
                 setTokenId(e.target.value);
               }}>
@@ -178,7 +183,7 @@ const Content = ({
             </select>
 
             {/* Input token amount to vote with */}
-            <input className={`appearance-none block w-full text-white
+            <input className={`appearance-none block w-full text-white font-poppin font-normal
           focus:outline-none focus:bg-transparent focus:border-purple-500 rounded py-3 px-4 mb-3 bg-transparent ${amount ? 'opacity-100' : ''} gitcoin-border`}
               type="text" placeholder="Enter amount"
               onChange={(e) => {
@@ -190,7 +195,7 @@ const Content = ({
           <button type="button" onClick={(e) => {
             e.preventDefault();
             checkout(amount, parseInt(tokenId));
-          }} className="block w-full lg:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-bold py-2 px-4 rounded-full">
+          }} className="block w-full xl:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-poppin font-bold py-2 px-4 rounded-full">
             Vote!
           </button>
         </div>
@@ -204,7 +209,7 @@ const Content = ({
             </div>
             <div className="ml-4">
               <h4 className="text-indigo-900 text-4xl text-indigo text-base font-light italic">{isWinning ? "WINNING!" : "LOSING!"}</h4>
-              <p className="text-indigo-900 text-indigo text-xs">{isWinning ? "Way to go, voters!" : "Support your favorite by voting!"}</p>
+              <p className="text-indigo-900 text-indigo text-xs lg:text-sm font-poppin font-normal">{isWinning ? "Way to go, voters!" : "Support your favorite by voting!"}</p>
             </div>
           </div>
         </div>

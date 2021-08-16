@@ -28,7 +28,7 @@ export default function Thumbnail({ isWinner }: { isWinner: boolean | null }) {
       </div>
 
       {/* NFT title */}
-      <p className="game-player-name text-sm px-2 italic text-pink font-extrabold xl:px-5 xl:text-base">{metadata.name}</p>
+      <p className="game-player-name font-montserrat italic text-pink font-extrabold text-xs md:text-sm xl:px-5 xl:text-base">{metadata.name}</p>
       <div className={`game-losing ${isWinner !== null && !isWinner ? 'block' : 'hidden'}`} >
         <Image src={losingLogo} alt="game_losing" />
       </div>

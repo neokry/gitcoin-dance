@@ -68,7 +68,7 @@ export default function Matchup() {
   return (
     <Layout>
       {/* Displays the two NFTs in a matchup */}
-      <div className="container block py-8 mx-auto px-10 md:flex md:justify-around lg:py-16 xl:px-0">
+      <div className="container block mx-auto p-5 md:p-8 md:flex md:justify-around lg:py-16 xl:px-0">
         <div className="w-100 lg:w-1/2">
           <MatchupCard
             playerIndex={playerId}
@@ -79,11 +79,11 @@ export default function Matchup() {
         </div>
         <div className="my-14 md:mb-0 md:mt-12 md:w-28 lg:40 lg:mt-32">
           <div className="primary-color text-center versus-side">
-            <span className="font-light text-center text-5xl italic">vs.</span>
+            <span className="font-light text-center text-4xl italic">vs.</span>
           </div>
           {/*
             <p className="text-center mt-6 md:mt-3">
-              <span className="text-indigo-900 text-indigo m-3 text-sm md:block">Ends in</span>
+              <span className="text-indigo-900 font-poppin font-normal text-indigo m-3 text-sm md:block">Ends in</span>
               <span className="text-white border border-white p-2 italic font-light md:block md:w-20 md:mx-auto">01:02:55</span>
             </p> 
           */}

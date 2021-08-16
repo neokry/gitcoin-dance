@@ -12,10 +12,10 @@ export default function Header() {
   const { zkData } = useContext(ZKSyncDataContext);
 
   return (
-    <div className="container mx-auto md:px-14 md:py-0 lg:px-10 xl:px-0">
+    <div className="container mx-auto px-5 md:px-10 md:py-0 xl:px-0">
       <div className="block py-5 lg:flex lg:justify-between lg:items-stretch">
         {/* Placeholder for logo */}
-        <div className="flex justify-center md:justify-start md:items-stretch">
+        <div className="flex justify-center md:justify-start md:items-stretch lg:w-3/5">
           <Link href="/" passHref={true}>
             <a className="hidden md:block">
               <Image src={logo} alt="logo" />
@@ -41,12 +41,12 @@ export default function Header() {
             </div>
             <div className="flex justify-end divide-x divide-purple-800 md:pl-12 lg:pl-0">
               <div className="text-right block px-5 md:px-0 md:mr-12 md:flex md:items-center lg:mr-8 lg:block">
-                <span className="primary-color font-black text-sm">Collected  in round 11</span>
-                <p className="primary-color italic font-light text-4xl md:text-2xl md:pl-5 lg:pl-0 lg:text-4xl">${zkData.data.overallTotal?.toFixed(2) ?? "0"}</p>
+                <span className="primary-color font-poppin font-bold text-xs md:text-base lg:text-sm">Collected  in round 11</span>
+                <p className="primary-color italic font-light mt-2 text-2xl md:pl-5 lg:pl-0 lg:text-4xl">${zkData.data.overallTotal?.toFixed(2) ?? "0"}</p>
               </div>
               <div className="text-right block pl-4 md:pl-12 md:flex md:items-center lg:pl-5 lg:block">
-                <span className="primary-color font-black text-sm">Collected  in total</span>
-                <p className="primary-color italic font-light text-4xl md:text-2xl md:pl-5 lg:pl-0 lg:text-4xl">${zkData.data.overallTotal?.toFixed(2) ?? "0"}</p>
+                <span className="primary-color font-poppin font-bold text-xs md:text-base lg:text-sm">Collected  in total</span>
+                <p className="primary-color italic font-light mt-2 text-2xl md:pl-5 lg:pl-0 lg:text-4xl">${zkData.data.overallTotal?.toFixed(2) ?? "0"}</p>
               </div>
               {/* Total Collected: ${zkData.data.overallTotal?.toFixed(2) ?? "0"} */}
             </div>
