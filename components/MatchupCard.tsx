@@ -129,7 +129,7 @@ const Content = ({
           </div>
         </div>
 
-        <div className="block mt-5 lg:flex lg:justify-between">
+        <div className="block mt-5 lg:flex lg:justify-between extramarginadded">
           <div>
             {/* NFT creator information */}
             <h1 className="text-pink-600 text-pink font-extrabold italic text-lg lg:text-2xl font-montserrat">{metadata.name}</h1>
@@ -149,7 +149,7 @@ const Content = ({
           <div className="flex justify-between">
             <div className="w-100">
               <p className="text-indigo-900 text-indigo text-xs lg:text-sm font-poppin font-normal">Collected by this NFT</p>
-              <h1 className="text-pink-600 text-pink text-xl lg:text-3xl">${playerFunds.toFixed(2)}</h1>
+              <h1 className="text-pink-600 text-pink text-xl lg:text-3xl rightalign">${playerFunds.toFixed(2)}</h1>
             </div>
             <div className="flex items-stretch w-100 lg:hidden">
               <div className="mr-2 self-end">
