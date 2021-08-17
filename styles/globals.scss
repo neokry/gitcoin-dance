@@ -12,17 +12,28 @@ $color-body-bg: #0e0333;
 /* ==========
 Import Font 
  ========== */
- @font-face {
-  font-family: 'Gobold Thin';
-  src: url('../public/assets/fonts/GoboldThinItalic.otf') format('otf'),
-    url('../public/assets/fonts/GoboldThinItalic.otf') format('otf');
+//  @font-face {
+//   font-family: 'Gobold Thin';
+//   src: url('../public/assets/fonts/GoboldThinItalic.otf') format('otf'),
+//     url('../public/assets/fonts/GoboldThinItalic.otf') format('otf');
+// }
+
+@font-face {
+  font-family: 'gobold_thinitalic';
+  src: url('../public/assets/fonts/gobold_thin_italic-webfont.woff2') format('woff2'),
+       url('../public/assets/fonts/gobold_thin_italic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
 }
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Poppins:wght@400;700&display=swap');
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Gobold Thin';
+  font-family: 'gobold_thinitalic';
+  // font-family: 'Gobold Thin';
   background: $color-body-bg;
   overflow-x: hidden;
 }
@@ -63,7 +74,8 @@ a {
   bottom: -20px;
   z-index: 99;
   left: 30%;
-  font-family: Gobold Thin;
+  font-family: 'gobold_thinitalic';
+  // font-family: Gobold Thin;
   font-style: italic;
 }
 .gitcoin-border {
@@ -228,8 +240,9 @@ a {
       border: 5px solid $color-primary;
       padding: 10px;
       .final-winner-text {
-        font-family: Gobold;
-        font-style: italic;
+        font-family: 'gobold_thinitalic';
+        // font-family: Gobold;
+        // font-style: italic;
         display: block;
         font-weight: bold;
       }
@@ -555,5 +568,54 @@ a {
   .in-detail.gamelosing::before {
     width: 120%;
     transform: rotate(34deg);
+  }
+}
+
+
+
+/* BENNISAN EXTRA STYLES */
+.topthing {
+  padding-top: 70px;
+}
+
+.topright_title {
+  font-family: 'gobold_thinitalic';
+}
+.extramarginadded {
+  margin-top: 40px;
+}
+.rightalign {
+  text-align: right;
+  margin: 4px 8px 0 0;
+}
+@media (max-width: 600px) {
+  .smalleronmobile {
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    img, div {
+      width: 18px !important;
+      height: 18px !important;
+      max-width: 18px !important;
+      max-height: 18px !important;
+    }
+  }
+  .containerpaddingoverwrite {
+    padding: 25px 50px;
+  }
+  .topright_title {
+    margin-top: 2px;
+  }
+  .pt-4 {
+    padding-top: 24px;
+  }
+  .px-3 {
+    padding-left: 50px;
+    padding-right: 0px;
+    padding-bottom: 50px;
+  }
+  .footer {
+    padding: 50px 50px 80px 50px;
   }
 }
