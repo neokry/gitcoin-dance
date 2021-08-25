@@ -24,21 +24,19 @@ export default function MatchupThumbnail({
   const pid1 = players[0];
   const pid2 = players[1];
 
+  const getGameClass = (id: number) =>
+    isWinner(id) ? "game-win" : "game-loss";
+  //const getGameClass = (id: number) => "";
+
   return (
     <Fragment>
       <li
         className={`relative flex flex-initial justify-center flex-col ${
           isLeading ? "items-start" : "items-end"
-        } ${
-          isWinner(pid1) ? "game-win" : "game-loss"
-        } py-10 tournament-bracket-item`}
+        } ${getGameClass(pid1)} py-10 tournament-bracket-item`}
       >
         {/* if team win add this calss name "game-win" else "game-loss */}
-        <div
-          className={`tournament-bracket-match w-48 ${
-            isWinner(pid1) ? "team-win" : "team-loss"
-          }`}
-        >
+        <div className={`tournament-bracket-match w-48 ${getGameClass(pid1)}`}>
           {/* if team win add this calss name "team-win" else "team-loss"*/}
           <div className={`${finalWinner(pid1) ? "final-winner" : ""}`}>
             <h1 className="final-winner-text pb-4 text-white italic font-light text-sm md:text-lg text-center">
@@ -64,16 +62,10 @@ export default function MatchupThumbnail({
       <li
         className={`relative flex flex-initial justify-center flex-col ${
           isLeading ? "items-start" : "items-end"
-        } ${
-          isWinner(pid2) ? "game-win" : "game-loss"
-        } py-10 tournament-bracket-item`}
+        } ${getGameClass(pid2)} py-10 tournament-bracket-item`}
       >
         {/* if team win add this calss name "game-win" else "game-loss */}
-        <div
-          className={`tournament-bracket-match w-48 ${
-            isWinner(pid2) ? "team-win" : "team-loss"
-          }`}
-        >
+        <div className={`tournament-bracket-match w-48 ${getGameClass(pid2)}`}>
           {/* if team win add this calss name "team-win" else "team-loss"*/}
           <div className={`${finalWinner(pid2) ? "final-winner" : ""}`}>
             <h1 className="final-winner-text pb-4 text-white italic font-light text-sm md:text-lg text-center">
