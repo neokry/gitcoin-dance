@@ -24,9 +24,8 @@ export default function MatchupThumbnail({
   const pid1 = players[0];
   const pid2 = players[1];
 
-  const getGameClass = (id: number) =>
-    isWinner(id) ? "game-win" : "game-loss";
-  //const getGameClass = (id: number) => "";
+  //const getGameClass = (id: number) => isWinner(id) ? "game-win" : "game-loss";
+  const getGameClass = (id: number) => "";
 
   return (
     <Fragment>
