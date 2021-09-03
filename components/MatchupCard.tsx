@@ -201,51 +201,54 @@ const Content = ({
       </div>
 
       {/* Allows users to vote for this NFT by sending funds through ZKSync */}
-      {/* {isCurrentRound ? ( */}
       <div className="lg:divide-y-4 lg:divide-gitcoin">
         <div className="xl:flex xl:justify-between xl:items-center">
-          <div className="my-8 flex">
-            {/* Select a token to vote with */}
-            <select
-              value={tokenId}
-              className="w-1/3 bg-transparent font-poppin font-bold focus:outline-none text-white h-14 mr-5 border-b-2 border-indigo"
-              onChange={(e) => {
-                setTokenId(e.target.value);
-              }}
-            >
-              {tokenList.map((token) => (
-                <option key={token.id} value={token.id}>
-                  {token.symbol}
-                </option>
-              ))}
-            </select>
+          {isCurrentRound && (
+            <Fragment>
+              <div className="my-8 flex">
+                {/* Select a token to vote with */}
+                <select
+                  value={tokenId}
+                  className="w-1/3 bg-transparent font-poppin font-bold focus:outline-none text-white h-14 mr-5 border-b-2 border-indigo"
+                  onChange={(e) => {
+                    setTokenId(e.target.value);
+                  }}
+                >
+                  {tokenList.map((token) => (
+                    <option key={token.id} value={token.id}>
+                      {token.symbol}
+                    </option>
+                  ))}
+                </select>
 
-            {/* Input token amount to vote with */}
-            <input
-              className={`appearance-none block w-full text-white font-poppin font-normal
+                {/* Input token amount to vote with */}
+                <input
+                  className={`appearance-none block w-full text-white font-poppin font-normal
           focus:outline-none focus:bg-transparent focus:border-purple-500 rounded py-3 px-4 mb-3 bg-transparent ${
             amount ? "opacity-100" : ""
           } gitcoin-border`}
-              type="text"
-              placeholder="Enter amount"
-              onChange={(e) => {
-                setAmount(e.target.value);
-              }}
-              value={amount}
-              name="amount"
-            />
-          </div>
-          {/* Submit the vote */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              checkout(amount, parseInt(tokenId));
-            }}
-            className="block w-full xl:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-poppin font-bold py-2 px-4 rounded-full"
-          >
-            Vote!
-          </button>
+                  type="text"
+                  placeholder="Enter amount"
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                  }}
+                  value={amount}
+                  name="amount"
+                />
+              </div>
+              {/* Submit the vote */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  checkout(amount, parseInt(tokenId));
+                }}
+                className="block w-full xl:w-44 lg:h-10 lg:mb-5 italic bg-blue text-white font-poppin font-bold py-2 px-4 rounded-full"
+              >
+                Vote!
+              </button>
+            </Fragment>
+          )}
         </div>
         {/* ) : (
         <div className="text-indigo-900 text-indigo">Round Ended</div>
